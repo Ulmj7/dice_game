@@ -1,3 +1,4 @@
+var isNewGame;
 // Togloomiin buh hesegt ashiglagdah global huvisagch
 var activePlayer, scores, roundScore, diceDom;
 
@@ -6,6 +7,8 @@ initGame()
 
 function initGame(){
     // Initialize dice DOM element
+
+    isNewGame = true
     diceDom = document.querySelector('.dice')
     
     document.getElementById('current-0').textContent='0'
@@ -33,7 +36,8 @@ function initGame(){
 
 // Shoog shideh addEventlistener ashiglan   
 document.querySelector('.btn-roll').addEventListener('click',function shooShid(){
-    // 1-6 dotorh neg sanamsargui toog gargaj avna
+    if(isNewGame){
+            // 1-6 dotorh neg sanamsargui toog gargaj avna
     var diceNumber = Math.floor(Math.random()*6)+1;
     // shoonii zurgiig web deer gargaj irne
     diceDom.style.display='block'
@@ -53,16 +57,22 @@ document.querySelector('.btn-roll').addEventListener('click',function shooShid()
         // Shoog tur alga bolgono 
         diceDom.style.display='none'
     }
+    } else {
+        alert('Togloom duussan baina. New Game tovchiig darj shineer ehluulne uu?')
+    }
 })  
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
-    // Ug toglogchiin tsugluulsan onoog global huvisagch deer nemj ugnu.
+    if(isNewGame){
+            // Ug toglogchiin tsugluulsan onoog global huvisagch deer nemj ugnu.
     scores[activePlayer] = scores[activePlayer] + roundScore
 
     // Delgets deer onoog uurchilnu.
     document.getElementById('score-' + activePlayer).textContent = scores[activePlayer]
 
-    if(scores[activePlayer] >= 20){
+    if(scores[activePlayer] >= 10){
+        
+        isNewGame = false;
         document.getElementById('name-'+ activePlayer).textContent = 'WINNER!!!'
         document.querySelector('.player-'+activePlayer+'-panel').classList.add('winner')
         document.querySelector('.player-'+activePlayer+'-panel').classList.remove('active')
@@ -74,6 +84,9 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
         roundScore = 0
         // Toglogchiin eeljiig solino.
         switchNextPlayer()
+    }
+    } else{
+        alert('Togloom duussan baina. New Game tovchiig darj shineer ehluulne uu?')
     }
 })
 
